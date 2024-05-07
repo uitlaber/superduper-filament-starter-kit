@@ -1,0 +1,30 @@
+{
+    "name": "nwidart/clickhome",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\ClickHome\\": "app/",
+            "Modules\\ClickHome\\Database\\Factories\\": "database/factories/",
+            "Modules\\ClickHome\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\ClickHome\\Tests\\": "tests/"
+        }
+    }
+}

@@ -1,0 +1,11 @@
+{
+    "name": "ClickHome",
+    "alias": "clickhome",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\ClickHome\\Providers\\ClickHomeServiceProvider"
+    ],
+    "files": []
+}

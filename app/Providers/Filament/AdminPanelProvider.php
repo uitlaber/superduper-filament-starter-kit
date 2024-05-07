@@ -7,6 +7,7 @@ use App\Filament\Pages\Auth\Login;
 use App\Filament\Pages\Auth\RequestPasswordReset;
 use App\Livewire\MyProfileExtended;
 use App\Settings\GeneralSettings;
+use Coolsam\Modules\ModulesPlugin;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -45,6 +46,7 @@ class AdminPanelProvider extends PanelProvider
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->resources([
+                \Modules\ClickHome\Filament\Resources\ObjectCategoryResource::class,
                 config('filament-logger.activity_resource')
             ])
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
@@ -71,6 +73,7 @@ class AdminPanelProvider extends PanelProvider
                 Authenticate::class,
             ])
             ->plugins([
+                
                 \BezhanSalleh\FilamentExceptions\FilamentExceptionsPlugin::make(),
                 \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make()
                     ->gridColumns([
@@ -87,6 +90,7 @@ class AdminPanelProvider extends PanelProvider
                         'default' => 1,
                         'sm' => 2,
                     ]),
+                    ModulesPlugin::make(),
                 \Jeffgreco13\FilamentBreezy\BreezyCore::make()
                     ->myProfile(
                         shouldRegisterUserMenu: true,

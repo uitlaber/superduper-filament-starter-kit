@@ -23,7 +23,12 @@ class CategoryResource extends Resource
 
     protected static ?string $slug = 'blog/categories';
 
+    protected static ?string $modelLabel = 'категория';
+
+    protected static ?string $pluralModelLabel = 'категории';
+
     protected static ?int $navigationSort = -1;
+
     protected static ?string $navigationIcon = 'fluentui-stack-20';
 
     public static function form(Form $form): Form
@@ -31,12 +36,14 @@ class CategoryResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label('Название')
                     ->required()
                     ->maxLength(255)
                     ->live(onBlur: true)
                     ->afterStateUpdated(fn (string $operation, $state, Forms\Set $set) => $operation === 'create' ? $set('slug', Str::slug($state)) : null),
 
                 Forms\Components\TextInput::make('slug')
+                    ->label('Алияс')
                     ->disabled()
                     ->dehydrated()
                     ->required()
@@ -44,10 +51,11 @@ class CategoryResource extends Resource
                     ->unique(Category::class, 'slug', ignoreRecord: true),
 
                 Forms\Components\MarkdownEditor::make('description')
+                    ->label('Описание')
                     ->columnSpan('full'),
 
                 Forms\Components\Toggle::make('is_visible')
-                    ->label('Visible to customers.')
+                    ->label('Видимость')
                     ->default(true),
             ]);
     }
@@ -57,16 +65,21 @@ class CategoryResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->label('Название')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('slug')
+                    ->label('Алияс')
                     ->searchable(),
                 Tables\Columns\IconColumn::make('is_visible')
+                    ->label('Видимость')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label('Дата создания')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Дата изменения')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(),
@@ -75,9 +88,9 @@ class CategoryResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make()->hiddenLabel()->tooltip('Detail'),
-                Tables\Actions\EditAction::make()->hiddenLabel()->tooltip('Edit'),
-                Tables\Actions\DeleteAction::make()->hiddenLabel()->tooltip('Delete'),
+                Tables\Actions\ViewAction::make()->hiddenLabel()->tooltip('Посмотреть'),
+                Tables\Actions\EditAction::make()->hiddenLabel()->tooltip('Изменить'),
+                Tables\Actions\DeleteAction::make()->hiddenLabel()->tooltip('Удалить'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -90,12 +103,16 @@ class CategoryResource extends Resource
     {
         return $infolist
             ->schema([
-                TextEntry::make('name'),
-                TextEntry::make('slug'),
-                TextEntry::make('description'),
+                TextEntry::make('name')
+                    ->label('Название'),
+                TextEntry::make('slug')
+                    ->label('Алияс'),
+                TextEntry::make('description')
+                    ->label('Описание'),
                 IconEntry::make('is_visible')
-                    ->label('Visibility'),
+                    ->label('Видимость'),
                 TextEntry::make('updated_at')
+                    ->label('Дата изменения')
                     ->dateTime(),
             ])
             ->columns(1)

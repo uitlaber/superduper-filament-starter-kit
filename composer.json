@@ -22,6 +22,7 @@
         "bezhansalleh/filament-exceptions": "^2.1",
         "bezhansalleh/filament-shield": "^3.2",
         "codeat3/blade-fluentui-system-icons": "^1.32",
+        "coolsam/modules": "4",
         "filament/filament": "^3.2",
         "filament/spatie-laravel-media-library-plugin": "^3.2",
         "filament/spatie-laravel-settings-plugin": "^3.2",
@@ -32,9 +33,12 @@
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
         "riodwanto/filament-ace-editor": "^1.0",
+        "solution-forest/filament-tree": "^2.0",
         "z3d0x/filament-logger": "^0.6.3"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.13",
+        "barryvdh/laravel-ide-helper": "^3.0",
         "fakerphp/faker": "^1.9.1",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.18",
@@ -62,7 +66,9 @@
             "@php artisan filament:upgrade"
         ],
         "post-update-cmd": [
-            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
+            "@php artisan ide-helper:generate",
+            "@php artisan ide-helper:meta"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
@@ -73,7 +79,14 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": []
+            "dont-discover": [
+                "barryvdh/laravel-ide-helper"
+            ]
+        },
+        "merge-plugin": {
+            "include" : [
+                "Modules/*/composer.json"
+            ]
         }
     },
     "config": {
@@ -82,7 +95,8 @@
         "sort-packages": true,
         "allow-plugins": {
             "pestphp/pest-plugin": true,
-            "php-http/discovery": true
+            "php-http/discovery": true,
+            "wikimedia/composer-merge-plugin": true
         }
     },
     "minimum-stability": "stable",

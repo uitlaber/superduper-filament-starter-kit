@@ -17,8 +17,8 @@ class ListBanners extends ListRecords
         ];
     }
 
-    public function getSubHeading(): string
-    {
-        return  __('resource.banner.subheading');
-    }
+    // public function getSubHeading(): string
+    // {
+    //     return  __('resource.banner.subheading');
+    // }
 }
