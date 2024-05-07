@@ -10,13 +10,17 @@ class PropertyOption extends Model
 {
     use HasFactory;
 
+    protected $casts = [
+        'options' => 'array',
+    ];
+
     /**
      * The attributes that are mass assignable.
      */
-    protected $fillable = [];
-
-    protected static function newFactory(): PropertyOptionFactory
-    {
-        //return PropertyOptionFactory::new();
-    }
+    protected $fillable = [
+        'value',
+        'options',
+        'property_id',
+        'order'
+    ];
 }

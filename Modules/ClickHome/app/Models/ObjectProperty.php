@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class ObjectProperty extends Pivot
 {
-    public $incrementing = false;
+    public $incrementing = true;
 
     protected function casts(): array
     {
@@ -15,6 +15,10 @@ class ObjectProperty extends Pivot
             'data' => 'array',
         ];
     }
+
+    protected $fillable = [
+        'data'
+    ];
 
     protected $table = 'object_properties';
 }

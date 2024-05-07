@@ -10,6 +10,9 @@ class ListProperties extends ListRecords
 {
     protected static string $resource = PropertyResource::class;
 
+    public ?string $tableSortColumn = 'order';
+
+
     protected function getHeaderActions(): array
     {
         return [

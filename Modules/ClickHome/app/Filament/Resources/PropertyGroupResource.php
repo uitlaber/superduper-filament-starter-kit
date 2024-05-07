@@ -12,6 +12,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\HtmlString;
+use Modules\ClickHome\Models\ObjectCategory;
 
 class PropertyGroupResource extends Resource
 {
@@ -19,16 +21,39 @@ class PropertyGroupResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $modelLabel = 'Группа параметров';
+
+    protected static ?string $pluralModelLabel = 'Группа параметров';
+
+    protected static ?string $navigationGroup = 'ClickHome';
+
     public static function form(Form $form): Form
     {
+
+
+        $categoryOptions = [];
+        $categoryTree = ObjectCategory::treeNodes();
+        foreach ($categoryTree as $category) {
+            foreach ($category['children'] as $subCategory) {
+                foreach ($subCategory['children'] as $child) {
+                    $categoryOptions[$category['title'] . '/' . $subCategory['title']][$child['id']] = $child['title'];
+                }
+            }
+        }
+        //   dd($categoryOptions );
+
+
         return $form
             ->schema([
-                Forms\Components\TextInput::make('object_category_id')
-                    ->numeric(),
+                Forms\Components\Select::make('object_category_id')
+                    ->label('Категория')
+                    ->options($categoryOptions),
                 Forms\Components\TextInput::make('name')
+                    ->label('Название')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Textarea::make('description')
+                    ->label('Описание')
                     ->columnSpanFull(),
             ]);
     }
@@ -37,16 +62,23 @@ class PropertyGroupResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('object_category_id')
-                    ->numeric()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('name')
+                    ->label('Название')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('category.title')
+                    ->label('Категория')
+                    ->description(function (PropertyGroup $record): string {
+                       
+                        return '';
+                    })
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label('Дата создания')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Дата изменения')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

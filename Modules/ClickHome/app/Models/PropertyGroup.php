@@ -4,7 +4,8 @@ namespace Modules\ClickHome\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Modules\ClickHome\Database\Factories\PropertyGroupFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class PropertyGroup extends Model
 {
@@ -13,10 +14,19 @@ class PropertyGroup extends Model
     /**
      * The attributes that are mass assignable.
      */
-    protected $fillable = [];
+    protected $fillable = [
+        'object_category_id',
+        'name',
+        'description'
+    ];
 
-    protected static function newFactory(): PropertyGroupFactory
+    public function category(): BelongsTo
     {
-        //return PropertyGroupFactory::new();
+        return $this->belongsTo(ObjectCategory::class, 'object_category_id');
+    }
+
+    public function properties(): HasMany
+    {
+        return $this->hasMany(Property::class);
     }
 }

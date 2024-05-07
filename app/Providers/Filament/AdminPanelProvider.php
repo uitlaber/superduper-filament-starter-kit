@@ -46,7 +46,10 @@ class AdminPanelProvider extends PanelProvider
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->resources([
+                \Modules\ClickHome\Filament\Resources\PropertyGroupResource::class,
+                \Modules\ClickHome\Filament\Resources\PropertyResource::class,
                 \Modules\ClickHome\Filament\Resources\ObjectCategoryResource::class,
+                \Modules\ClickHome\Filament\Resources\ObjectEntityResource::class,
                 config('filament-logger.activity_resource')
             ])
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
