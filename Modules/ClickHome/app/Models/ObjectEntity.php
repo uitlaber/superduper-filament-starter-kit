@@ -47,7 +47,7 @@ class ObjectEntity extends Model implements HasMedia
 
     public function category(): BelongsTo
     {
-        return $this->belongsTo(ObjectCategory::class);
+        return $this->belongsTo(ObjectCategory::class, 'object_category_id');
     }
 
     public function user(): BelongsTo
@@ -55,8 +55,13 @@ class ObjectEntity extends Model implements HasMedia
         return $this->belongsTo(User::class);
     }
 
+    public function contacts(): HasMany
+    {
+        return $this->hasMany(ObjectContact::class);
+    }
+
     public function properties(): BelongsToMany
     {
-        return $this->belongsToMany(Property::class, 'object_properties','object_entity_id', 'property_id')->using(ObjectProperty::class)->withTimestamps()->withPivot('data');
+        return $this->belongsToMany(Property::class, 'object_properties','object_entity_id', 'property_id')->withTimestamps()->withPivot('data');    
     }
 }

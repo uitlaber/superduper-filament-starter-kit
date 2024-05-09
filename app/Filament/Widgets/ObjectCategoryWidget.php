@@ -23,6 +23,8 @@ class ObjectCategoryWidget extends BaseWidget
 
     protected bool $enableTreeTitle = true;
 
+    protected static bool $isDiscovered = false;
+
     protected function getFormSchema(): array
     {
         return [

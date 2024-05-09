@@ -5,16 +5,21 @@ namespace Modules\ClickHome\Filament\Resources;
 use Modules\ClickHome\Filament\Resources\ObjectEntityResource\Pages;
 use Modules\ClickHome\Models\ObjectEntity;
 use Filament\Forms;
+use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\MultiSelect;
 use Filament\Forms\Components\Placeholder;
-
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -38,8 +43,9 @@ class ObjectEntityResource extends Resource
 
     public static function form(Form $form): Form
     {
-        $categoryOptions = [];
+
         $currencyList =  CurrencyEnum::toArray();
+        $categoryOptions = [];
         $categoryTree = ObjectCategory::treeNodes();
         foreach ($categoryTree as $category) {
             foreach ($category['children'] as $subCategory) {
@@ -58,62 +64,98 @@ class ObjectEntityResource extends Resource
                             ->schema([
                                 Grid::make(2)->schema([
                                     Forms\Components\TextInput::make('title')
+                                        ->label('Заголовок')
                                         ->maxLength(255)->live(),
                                     Forms\Components\Select::make('object_category_id')
                                         ->label('Категория')
                                         ->options($categoryOptions)->live(),
                                     Forms\Components\Select::make('user_id')
+                                        ->label('Пользовтаель')
                                         ->searchable()
                                         ->relationship(name: 'user', titleAttribute: 'username'),
                                 ]),
                                 Forms\Components\Textarea::make('short_description')
+                                    ->label('Короткое описание')
                                     ->columnSpanFull(),
                                 Forms\Components\Textarea::make('description')
+                                    ->label('Описание')
                                     ->columnSpanFull(),
                                 Grid::make(2)->schema([
                                     Forms\Components\TextInput::make('price')
+                                        ->label('Цена')
                                         ->numeric()
                                         ->prefix('$'),
                                     Forms\Components\Select::make('price_currency')
                                         ->label('Валюта')
                                         ->options($currencyList),
                                     Forms\Components\TextInput::make('youtube_url')
+                                        ->label('Ссылка на Youtube')
+                                        ->url()
+                                        ->suffixIcon('heroicon-m-globe-alt')
                                         ->maxLength(255),
                                     Forms\Components\TextInput::make('tour3d_url')
+                                        ->label('Ссылка на 3D тур')
+                                        ->url()
+                                        ->suffixIcon('heroicon-m-globe-alt')
                                         ->maxLength(255),
                                 ]),
                                 Grid::make(2)->schema([
-                                    Forms\Components\DateTimePicker::make('start_publish_at'),
-                                    Forms\Components\DateTimePicker::make('end_publish_at'),
+                                    Forms\Components\DateTimePicker::make('start_publish_at')
+                                        ->label('Начало публикации'),
+                                    Forms\Components\DateTimePicker::make('end_publish_at')
+                                        ->label('Конец публикации'),
                                 ])
                             ]),
-                        Tabs\Tab::make('Адрес')
+                        Tabs\Tab::make('Адрес и контакты')
                             ->schema([
                                 Grid::make(2)->schema([
                                     Forms\Components\TextInput::make('location')
+                                        ->label('Координаты')
                                         ->maxLength(255),
                                     Forms\Components\TextInput::make('location_settlement')
+                                        ->label('Регион')
                                         ->maxLength(255),
                                     Forms\Components\TextInput::make('location_street')
+                                        ->label('Улица')
                                         ->maxLength(255),
                                     Forms\Components\TextInput::make('location_house_number')
+                                        ->label('Номер дома')
                                         ->maxLength(255),
                                     Forms\Components\TextInput::make('location_building_number')
+                                        ->label('Номер здания')
                                         ->maxLength(255),
-                                ])
+                                ]),
+                                Repeater::make('contacts')->relationship()
+                                    ->label('Контакты')
+                                    ->reorderable()
+                                    ->orderColumn('order')
+                                    ->schema([
+                                        TextInput::make('phone')->label('Номер телефона'),
+                                        TextInput::make('name')->label('Имя'),
+                                        TextInput::make('email')->email()->label('Email'),
+                                    ])
+                                    ->columns(3)
+
+                            ]),
+
+                        Tabs\Tab::make('Фото')
+                            ->schema([
+                                SpatieMediaLibraryFileUpload::make('media')
+                                    ->label('Фото')
+                                    ->collection('photos')
+                                    ->multiple()
+                                    ->reorderable()
+                                    ->required(),
                             ]),
                         Tabs\Tab::make('Параметры')
-
+                            ->hidden(fn (Get $get, string $operation): bool => ($operation == 'create' || $operation == 'create'  && $get('object_category_id') == null))
                             ->schema(
-                                function (Get $get): array {
+                                function (Get $get, string $operation): array {
                                     $components = [];
-                                    if ($get('object_category_id')) {
-                                        $components = self::objectPropertiesSet($get('object_category_id'));
-                                    }
+                                    $components = self::objectPropertiesSet($get('object_category_id'));
 
                                     return $components;
                                 }
-
                             ),
                     ])->columnSpanFull(),
 
@@ -126,10 +168,28 @@ class ObjectEntityResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('object_category_id')
+                Tables\Columns\TextColumn::make('id')
+                    ->label('ID')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('title')
+                Tables\Columns\TextColumn::make('category.title')
+                    ->label('Категория')
+                    ->description(function (ObjectEntity $record): string {
+                        $categoryTreeText = '';
+                        $categoryTree = ObjectCategory::treeNodes();
+                        foreach ($categoryTree as $category) {
+                            foreach ($category['children'] as $subCategory) {
+                                foreach ($subCategory['children'] as $child) {
+                                    if ($child['id'] == $record->id) {
+                                        $categoryTreeText = $category['title'] . '/' . $subCategory['title'];
+                                        continue;
+                                    }
+                                }
+                            }
+                        }
+
+                        return $categoryTreeText;
+                    })
                     ->searchable(),
                 Tables\Columns\TextColumn::make('location')
                     ->searchable(),
@@ -197,8 +257,9 @@ class ObjectEntityResource extends Resource
     }
 
 
-    public static function objectPropertiesSet(int $categoryId): array
+    public static function objectPropertiesSet(?int $categoryId): array
     {
+        if (is_null($categoryId)) return [];
         $components = [];
         $propertyGroups = PropertyGroup::query()
             ->where('object_category_id', $categoryId)->get();
@@ -209,30 +270,28 @@ class ObjectEntityResource extends Resource
 
                 $dataKey = 'properties.' . $property->id . '.data';
 
-                $valueComponent = TextInput::make($dataKey)->label('');
+                $valueComponent = TextInput::make($dataKey)->label($property->name);
 
                 switch ($property->type->value) {
                     case PropertyTypeEnum::CHECKBOX->value:
                         $valueComponent = Select::make($dataKey)
                             ->multiple()
-                            ->options($property->options()->pluck('value', 'id'))->label('');
+                            ->searchable(false)
+                            ->options($property->options()->pluck('value', 'id'))->label($property->name);
                         break;
                     case PropertyTypeEnum::RADIO->value:
                         $valueComponent = Select::make($dataKey)
-                            ->options($property->options()->pluck('value', 'id'))->label('');
+                            ->options($property->options()->pluck('value', 'id'))->label($property->name);
                         break;
                     case PropertyTypeEnum::SWITCH->value:
-                        $valueComponent = Toggle::make($dataKey)->label('');
+                        $valueComponent = Toggle::make($dataKey)->label($property->name);
                         break;
                 }
 
-                $childComponents[] = Grid::make(2)->schema([
-                    Placeholder::make($property->name),
-                    $valueComponent
-                ]);
+                $childComponents[] = $valueComponent;
             }
 
-            $components[] = Section::make($group->name)->schema($childComponents);
+            $components[] = Fieldset::make($group->name)->schema($childComponents)->columns(2);
         }
 
 

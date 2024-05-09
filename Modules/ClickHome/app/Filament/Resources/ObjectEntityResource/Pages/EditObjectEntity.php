@@ -17,7 +17,7 @@ class EditObjectEntity extends EditRecord
         return [
             Actions\DeleteAction::make(),
         ];
-    }   
+    }
 
     public function mount(int | string $record): void
     {
@@ -27,7 +27,11 @@ class EditObjectEntity extends EditRecord
             $properties = [];
 
             foreach ($this->record->properties as $property) {
-                $properties[$property->id]['data'] = json_decode($property->pivot->data, true)['value'];
+                if(!isset($property->pivot->data)) continue;
+                $data = json_decode($property->pivot->data, true);
+                if (isset($data['value'])) {
+                    $properties[$property->id]['data'] = $data['value'];
+                }
             }
 
             $this->record->properties = $properties;
@@ -48,12 +52,16 @@ class EditObjectEntity extends EditRecord
         if (isset($data['properties'])) {
             $properties = $data['properties'];
             foreach ($properties as $key => $property) {
-                $properties[$key]['data'] = json_encode(
-                    ['value' => $properties[$key]['data']]
-                );
+                if (isset($properties[$key]['data'])) {
+                    $properties[$key]['data'] = json_encode(
+                        ['value' => $properties[$key]['data']]
+                    );
+                }
             }
+            // dd($properties);
             $objectEntity->properties()->sync($properties);
-        } else {
+            
+        }else{
             $objectEntity->properties()->detach();
         }
 
