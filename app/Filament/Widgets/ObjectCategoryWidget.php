@@ -17,7 +17,7 @@ class ObjectCategoryWidget extends BaseWidget
 {
     protected static string $model = ObjectCategory::class;
 
-    protected static int $maxDepth = 3;
+    protected static int $maxDepth = 2;
 
     protected ?string $treeTitle = '';
 
@@ -65,7 +65,8 @@ class ObjectCategoryWidget extends BaseWidget
     protected function getTreeActions(): array
     {
         return [
-            EditAction::make(),
+            Action::make('edit')
+                ->url(fn (ObjectCategory $record): string => route('filament.admin.resources.object-categories.edit', $record)),
             DeleteAction::make(),
         ];
     }

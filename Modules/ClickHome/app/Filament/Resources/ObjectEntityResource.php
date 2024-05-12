@@ -25,6 +25,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 
 use Modules\ClickHome\Enums\CurrencyEnum;
+use Modules\ClickHome\Enums\DealTypeEnum;
 use Modules\ClickHome\Enums\PropertyTypeEnum;
 use Modules\ClickHome\Models\ObjectCategory;
 use Modules\ClickHome\Models\PropertyGroup;
@@ -39,22 +40,20 @@ class ObjectEntityResource extends Resource
 
     protected static ?string $pluralModelLabel = 'объекты';
 
-    protected static ?string $navigationGroup = 'ClickHome';
+    protected static ?string $navigationGroup = 'Объекты';
 
     public static function form(Form $form): Form
     {
 
         $currencyList =  CurrencyEnum::toArray();
+        $dealTypeList =  DealTypeEnum::toArray();
         $categoryOptions = [];
         $categoryTree = ObjectCategory::treeNodes();
         foreach ($categoryTree as $category) {
             foreach ($category['children'] as $subCategory) {
-                foreach ($subCategory['children'] as $child) {
-                    $categoryOptions[$category['title'] . '/' . $subCategory['title']][$child['id']] = $child['title'];
-                }
+                $categoryOptions[$category['title']][$subCategory['id']] = $subCategory['title'];
             }
         }
-
 
         return $form
             ->schema([
@@ -66,9 +65,15 @@ class ObjectEntityResource extends Resource
                                     Forms\Components\TextInput::make('title')
                                         ->label('Заголовок')
                                         ->maxLength(255)->live(),
+
+                                    Forms\Components\Select::make('deal_type')
+                                        ->label('Тип сделки')
+                                        ->options($dealTypeList),
+
                                     Forms\Components\Select::make('object_category_id')
                                         ->label('Категория')
                                         ->options($categoryOptions)->live(),
+
                                     Forms\Components\Select::make('user_id')
                                         ->label('Пользовтаель')
                                         ->searchable()
@@ -130,8 +135,8 @@ class ObjectEntityResource extends Resource
                                     ->reorderable()
                                     ->orderColumn('order')
                                     ->schema([
-                                        TextInput::make('phone')->label('Номер телефона'),
-                                        TextInput::make('name')->label('Имя'),
+                                        TextInput::make('phone')->label('Номер телефона')->required(),
+                                        TextInput::make('name')->label('Имя')->required(),
                                         TextInput::make('email')->email()->label('Email'),
                                     ])
                                     ->columns(3)
@@ -261,10 +266,9 @@ class ObjectEntityResource extends Resource
     {
         if (is_null($categoryId)) return [];
         $components = [];
-        $propertyGroups = PropertyGroup::query()
-            ->where('object_category_id', $categoryId)->get();
+        $objectCategory = ObjectCategory::findOrFail($categoryId);
 
-        foreach ($propertyGroups as $group) {
+        foreach ($objectCategory->propertyGroups as $group) {
             $childComponents = [];
             foreach ($group->properties->sortBy('order') as $property) {
 

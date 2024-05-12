@@ -12,6 +12,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Modules\ClickHome\Filament\Resources\ObjectCategoryResource\RelationManagers\PropertyGroupRelationManager;
 
 class ObjectCategoryResource extends Resource
 {
@@ -19,20 +20,22 @@ class ObjectCategoryResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?string $modelLabel = 'категория';
+    protected static ?string $modelLabel = 'категории';
 
     protected static ?string $pluralModelLabel = 'категории';
 
-    protected static ?string $navigationGroup = 'ClickHome';
+    protected static ?string $navigationGroup = 'Объекты';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('title')
+                    ->label('Название')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Textarea::make('description')
+                    ->label('Описание')
                     ->columnSpanFull(),
             ]);
     }
@@ -78,7 +81,7 @@ class ObjectCategoryResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            PropertyGroupRelationManager::class
         ];
     }
 

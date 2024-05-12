@@ -21,33 +21,16 @@ class PropertyGroupResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?string $modelLabel = 'Группа параметров';
+    protected static ?string $modelLabel = 'группа';
 
-    protected static ?string $pluralModelLabel = 'Группа параметров';
+    protected static ?string $pluralModelLabel = 'группа';
 
-    protected static ?string $navigationGroup = 'ClickHome';
+    protected static ?string $navigationGroup = 'Параметры';
 
     public static function form(Form $form): Form
     {
-
-
-        $categoryOptions = [];
-        $categoryTree = ObjectCategory::treeNodes();
-        foreach ($categoryTree as $category) {
-            foreach ($category['children'] as $subCategory) {
-                foreach ($subCategory['children'] as $child) {
-                    $categoryOptions[$category['title'] . '/' . $subCategory['title']][$child['id']] = $child['title'];
-                }
-            }
-        }
-        //   dd($categoryOptions );
-
-
         return $form
             ->schema([
-                Forms\Components\Select::make('object_category_id')
-                    ->label('Категория')
-                    ->options($categoryOptions),
                 Forms\Components\TextInput::make('name')
                     ->label('Название')
                     ->required()
@@ -64,14 +47,7 @@ class PropertyGroupResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->label('Название')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('category.title')
-                    ->label('Категория')
-                    ->description(function (PropertyGroup $record): string {
-                       
-                        return '';
-                    })
-                    ->searchable(),
+                    ->searchable(),              
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Дата создания')
                     ->dateTime()

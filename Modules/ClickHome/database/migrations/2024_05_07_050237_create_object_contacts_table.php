@@ -11,13 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('object_properties', function (Blueprint $table) {
+        Schema::create('object_contacts', function (Blueprint $table) {
+            $table->id();
+            $table->string('phone');
+            $table->string('name');
+            $table->string('email')->nullable();      
             $table->unsignedBigInteger('object_entity_id');
-            $table->unsignedBigInteger('property_id');
+            $table->foreign('object_entity_id')->references('id')->on('object_entities')->onDelete('cascade');     
+            $table->integer('order')->nullable();  
             $table->timestamps();
-            $table->json('data')->nullable();
-            $table->foreign('object_entity_id')->references('id')->on('object_entities');
-            $table->foreign('property_id')->references('id')->on('properties');
         });
     }
 
@@ -26,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('object_properties');
+        Schema::dropIfExists('object_contacts');
     }
 };

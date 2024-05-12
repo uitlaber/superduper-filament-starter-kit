@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Modules\ClickHome\Enums\DealTypeEnum;
 
 return new class extends Migration
 {
@@ -13,8 +14,7 @@ return new class extends Migration
     {
         Schema::create('object_entities', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('object_category_id')->nullable()->nullOnDelete();
-            $table->string('title')->nullable();
+            $table->string('title')->nullable();            
             $table->text('short_description')->nullable();
             $table->text('description')->nullable();
             $table->string('location')->nullable();
@@ -26,9 +26,19 @@ return new class extends Migration
             $table->string('price_currency')->nullable();
             $table->string('youtube_url')->nullable();
             $table->string('tour3d_url')->nullable();
-            $table->foreignUuid('user_id')->nullable()->nullOnDelete();
-            $table->timestamp('start_publish_at')->nullable();  
-            $table->timestamp('end_publish_at')->nullable();  
+            $table->uuid('user_id');
+            $table->enum('deal_type', DealTypeEnum::toArray());
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
+            $table->timestamp('start_publish_at')->nullable();
+            $table->timestamp('end_publish_at')->nullable();
+            $table->unsignedBigInteger('object_category_id')->nullable();
+            $table->foreign('object_category_id')
+                ->references('id')
+                ->on('object_categories')
+                ->onDelete('set null'); // Set the onDelete action 
             $table->timestamps();
         });
     }

@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('property_options', function (Blueprint $table) {
-            $table->id();
-            $table->string('value');
-            $table->json('options')->nullable();
+        Schema::create('property_values', function (Blueprint $table) {      
+            $table->json('data')->nullable();            
             $table->unsignedBigInteger('property_id');
-            $table->foreign('property_id')->references('id')->on('properties')->onDelete('cascade');    
-            $table->integer('order')->nullable();   
+            $table->foreign('property_id')->references('id')->on('properties')->onDelete('cascade');
+            $table->morphs('properteable');
             $table->timestamps();
         });
     }
@@ -26,7 +24,7 @@ return new class extends Migration
      * Reverse the migrations.
      */
     public function down(): void
-    {  
-        Schema::dropIfExists('property_options');
+    {   
+        Schema::dropIfExists('property_values');
     }
 };

@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('property_groups', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('object_category_id')->nullable()->nullOnDelete();
             $table->string('name');            
-            $table->text('description')->nullable();  
+            $table->text('description')->nullable();
+            $table->json('options')->nullable();
+            $table->integer('order')->nullable();          
             $table->timestamps();
         });
     }

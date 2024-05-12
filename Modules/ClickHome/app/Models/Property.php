@@ -14,6 +14,7 @@ class Property extends Model
 
     protected $casts = [
         'type' => PropertyTypeEnum::class,
+        'is_required' => 'boolean'
     ];
 
     protected $fillable = [
@@ -21,7 +22,9 @@ class Property extends Model
         'label',
         'description',
         'type',
-        'order'
+        'order',
+        'property_group_id',
+        'is_required'
     ];
 
     public function group(): BelongsTo

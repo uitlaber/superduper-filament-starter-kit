@@ -3,6 +3,7 @@
 namespace Modules\ClickHome\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use SolutionForest\FilamentTree\Concern\ModelTree;
 
 class ObjectCategory extends Model
@@ -12,5 +13,10 @@ class ObjectCategory extends Model
     protected $fillable = ["parent_id", "title", "order", "description"];
 
     protected $table = 'object_categories';
+
+    public function propertyGroups(): BelongsToMany
+    {
+        return $this->belongsToMany(PropertyGroup::class, 'object_category_property_groups', 'object_category_id', 'property_group_id');
+    }
 
 }

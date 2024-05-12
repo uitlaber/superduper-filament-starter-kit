@@ -32,7 +32,7 @@ class PropertyResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Параметры';
 
-    protected static ?string $navigationGroup = 'ClickHome';
+    protected static ?string $navigationGroup = 'Параметры';
 
 
     public static function form(Form $form): Form
@@ -42,13 +42,14 @@ class PropertyResource extends Resource
 
 
         return $form
-            ->schema([
+            ->schema([               
                 Forms\Components\TextInput::make('name')
                     ->label('Название')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Select::make('property_group_id')
                     ->label('Группа')
+                    ->required()
                     ->searchable()
                     ->relationship(name: 'group', titleAttribute: 'name'),
                 Forms\Components\TextInput::make('label')
@@ -57,7 +58,13 @@ class PropertyResource extends Resource
 
                 Forms\Components\Select::make('type')
                     ->label('Тип параметра')
+                    ->required()
                     ->options($propertyTypes)->live(),
+
+                Forms\Components\Toggle::make('is_required')
+                    ->label('Объязательный параметр?')
+                    ->columnSpanFull(),
+
                 Forms\Components\Textarea::make('description')
                     ->label('Описание')
                     ->columnSpanFull(),
@@ -69,23 +76,7 @@ class PropertyResource extends Resource
                     ->schema([
                         TextInput::make('value')->required(),
                         TextInput::make('options.icon'),
-                    ])->columns(2)->columnSpanFull()->orderColumn('order')
-                // Grid::make()
-                //     ->schema(function (Get $get): array {
-                //         if ($get('type') == PropertyTypeEnum::MULTIPLE->value || $get('type') == PropertyTypeEnum::CHECKBOX->value) {
-                //             return [
-                //                 Repeater::make('options')
-                //                     ->relationship(name: 'options')
-                //                     ->label('Значение')
-                //                     ->schema([
-                //                         TextInput::make('value')->required(),
-                //                         TextInput::make('options.icon'),
-                //                     ])->columns(2)->columnSpanFull()->orderColumn('order')
-                //             ];
-                //         }
-                //         return [];
-                //     })
-                //     ->key('dynamicTypeFields')->columnSpanFull(),
+                    ])->columns(2)->columnSpanFull()->orderColumn('order')             
             ]);
     }
 
@@ -103,6 +94,8 @@ class PropertyResource extends Resource
                 Tables\Columns\TextColumn::make('type')
                     ->label('Тип')
                     ->searchable(),
+                Tables\Columns\ToggleColumn::make('is_required')
+                    ->label('Объязательный параметр?'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Дата создания')
                     ->dateTime()

@@ -14,11 +14,14 @@ return new class extends Migration
     {
         Schema::create('properties', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('property_group_id')->nullable()->nullOnDelete();
             $table->string('name');
             $table->string('label')->nullable();
             $table->text('description')->nullable();
             $table->string('type')->default(PropertyTypeEnum::TEXT->value);
+            $table->unsignedBigInteger('property_group_id');
+            $table->foreign('property_group_id')->references('id')->on('property_groups')->onDelete('cascade');
+            $table->integer('order')->nullable();         
+            $table->boolean('is_required')->default(false);         
             $table->timestamps();
         });
     }

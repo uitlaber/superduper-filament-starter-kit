@@ -7,6 +7,7 @@ use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 use Illuminate\Database\Eloquent\Model;
 use Modules\ClickHome\Models\ObjectEntity;
+use Modules\ClickHome\Models\PropertyValue;
 
 class EditObjectEntity extends EditRecord
 {
@@ -23,14 +24,15 @@ class EditObjectEntity extends EditRecord
     {
         $this->record = $this->resolveRecord($record);
 
+       
+
         if ($this->record->properties->count()) {
             $properties = [];
-
             foreach ($this->record->properties as $property) {
-                if(!isset($property->pivot->data)) continue;
-                $data = json_decode($property->pivot->data, true);
+                if ($property->data == null && empty(trim($property->data))) continue;
+                $data = json_decode($property->data, true);
                 if (isset($data['value'])) {
-                    $properties[$property->id]['data'] = $data['value'];
+                    $properties[$property->property_id]['data'] = $data['value'];
                 }
             }
 
@@ -48,21 +50,23 @@ class EditObjectEntity extends EditRecord
     {
         $record->update($data);
         $objectEntity = ObjectEntity::find($record->id);
+        $objectEntity->properties()->delete();
 
-        if (isset($data['properties'])) {
-            $properties = $data['properties'];
-            foreach ($properties as $key => $property) {
-                if (isset($properties[$key]['data'])) {
-                    $properties[$key]['data'] = json_encode(
-                        ['value' => $properties[$key]['data']]
+        if (isset($data['properties'])) {   
+            $properties = [];        
+            foreach ($data['properties'] as $key => $property) {
+                if (isset($property['data'])) {
+                    $properties[] = new PropertyValue(
+                        [
+                            'property_id' => $key,
+                            'data' => json_encode(['value' => $property['data']])
+                        ]
                     );
                 }
             }
-            // dd($properties);
-            $objectEntity->properties()->sync($properties);
-            
-        }else{
-            $objectEntity->properties()->detach();
+            $objectEntity->properties()->saveMany($properties);
+        } else {
+            $objectEntity->properties()->delete();
         }
 
         return  $record;
