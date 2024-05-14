@@ -46,7 +46,7 @@ class ObjectEntityResource extends Resource
     {
 
         $currencyList =  CurrencyEnum::toArray();
-        $dealTypeList =  DealTypeEnum::toArray();
+        $dealTypeList =  DealTypeEnum::labelArray();
         $categoryOptions = [];
         $categoryTree = ObjectCategory::treeNodes();
         foreach ($categoryTree as $category) {
@@ -68,14 +68,17 @@ class ObjectEntityResource extends Resource
 
                                     Forms\Components\Select::make('deal_type')
                                         ->label('Тип сделки')
+                                        ->required()
                                         ->options($dealTypeList),
 
                                     Forms\Components\Select::make('object_category_id')
                                         ->label('Категория')
+                                        ->required()
                                         ->options($categoryOptions)->live(),
 
                                     Forms\Components\Select::make('user_id')
                                         ->label('Пользовтаель')
+                                        ->required()
                                         ->searchable()
                                         ->relationship(name: 'user', titleAttribute: 'username'),
                                 ]),
@@ -177,6 +180,9 @@ class ObjectEntityResource extends Resource
                     ->label('ID')
                     ->numeric()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('deal_type')
+                ->label('Тип сделки')
+                ->formatStateUsing(fn (string $state): string => __("messages.dealtypes.{$state}")),
                 Tables\Columns\TextColumn::make('category.title')
                     ->label('Категория')
                     ->description(function (ObjectEntity $record): string {
@@ -196,33 +202,30 @@ class ObjectEntityResource extends Resource
                         return $categoryTreeText;
                     })
                     ->searchable(),
-                Tables\Columns\TextColumn::make('location')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('location_settlement')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('location_street')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('location_house_number')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('location_building_number')
-                    ->searchable(),
+                // Tables\Columns\TextColumn::make('location')
+                //     ->searchable(),
+                // Tables\Columns\TextColumn::make('location_settlement')
+                //     ->searchable(),
+                // Tables\Columns\TextColumn::make('location_street')
+                //     ->searchable(),
+                // Tables\Columns\TextColumn::make('location_house_number')
+                //     ->searchable(),
+                // Tables\Columns\TextColumn::make('location_building_number')
+                // ->searchable(),
                 Tables\Columns\TextColumn::make('price')
-                    ->money()
+                    ->label('Цена')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('price_currency')
+                    ->label('Валюта')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('youtube_url')
+                // Tables\Columns\TextColumn::make('youtube_url')
+                //     ->searchable(),
+                // Tables\Columns\TextColumn::make('tour3d_url')
+                //     ->searchable(),
+                Tables\Columns\TextColumn::make('user.firstname')
+                    ->label('Пользователь')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('tour3d_url')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('user_id')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('start_publish_at')
-                    ->dateTime()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('end_publish_at')
-                    ->dateTime()
-                    ->sortable(),
+                
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -267,8 +270,9 @@ class ObjectEntityResource extends Resource
         if (is_null($categoryId)) return [];
         $components = [];
         $objectCategory = ObjectCategory::findOrFail($categoryId);
+        $propertyGroups = $objectCategory->propertyGroups()->where('type', ObjectEntity::class)->get();
 
-        foreach ($objectCategory->propertyGroups as $group) {
+        foreach ($propertyGroups as $group) {
             $childComponents = [];
             foreach ($group->properties->sortBy('order') as $property) {
 

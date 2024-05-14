@@ -50,6 +50,7 @@ class AdminPanelProvider extends PanelProvider
                 \Modules\ClickHome\Filament\Resources\PropertyResource::class,
                 \Modules\ClickHome\Filament\Resources\ObjectCategoryResource::class,
                 \Modules\ClickHome\Filament\Resources\ObjectEntityResource::class,
+                \Modules\ClickHome\Filament\Resources\ApplicationResource::class,
                 config('filament-logger.activity_resource')
             ])
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')

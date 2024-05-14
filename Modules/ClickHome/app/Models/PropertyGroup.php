@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\File;
+use Illuminate\Container\Container;
 
 class PropertyGroup extends Model
 {
@@ -17,7 +19,8 @@ class PropertyGroup extends Model
      */
     protected $fillable = [
         'name',
-        'description'
+        'description',
+        'type'
     ];
 
     public function objectCategories(): BelongsToMany
@@ -28,5 +31,34 @@ class PropertyGroup extends Model
     public function properties(): HasMany
     {
         return $this->hasMany(Property::class);
+    }
+
+
+    function getModelsUsingTrait(string $traitName)
+    {
+        $models = collect(File::allFiles(module_path("ClickHome")))
+            ->map(function ($item) {
+                $path = $item->getPathName();
+                $fileName = str_replace(".php", "", $item->getBasename());
+                $contents = file_get_contents($path);
+                if (preg_match("/namespace\s+(.*?);/s", $contents, $matches)) {
+                    return [
+                        'name' =>  $matches[1] . "\\" . $fileName,
+                        'label' => __('resource.'.$fileName)
+                    ];
+                }
+            })
+            ->filter(function ($class) use ($traitName) {
+                $valid = false;
+                if ($class && class_exists($class['name'])) {
+                    $reflection = new \ReflectionClass($class['name']);
+                    $valid =
+                        in_array($traitName, $reflection->getTraitNames()) &&
+                        !$reflection->isAbstract();
+                }
+                return $valid;
+            });
+
+        return $models->values();
     }
 }

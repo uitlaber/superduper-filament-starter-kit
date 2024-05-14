@@ -13,7 +13,10 @@ return new class extends Migration
     {
         Schema::create('applications', function (Blueprint $table) {
             $table->id();
-            $table->text('description');
+            $table->string('title')->nullable();
+            $table->text('description')->nullable();     
+            $table->decimal('price', 10,2);
+            $table->string('price_currency')->nullable();
             $table->uuid('user_id');
             $table->foreign('user_id')
                   ->references('id')

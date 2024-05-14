@@ -6,6 +6,7 @@ use Spatie\LaravelSettings\Settings;
 
 class GeneralSettings extends Settings
 {
+ 
     public string $brand_name;
     public ?string $brand_logo;
     public string $brand_logoHeight;

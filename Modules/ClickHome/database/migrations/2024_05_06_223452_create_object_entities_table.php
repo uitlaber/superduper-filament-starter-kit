@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('location_street')->nullable();
             $table->string('location_house_number')->nullable();
             $table->string('location_building_number')->nullable();
-            $table->bigInteger('price')->nullable();
+            $table->decimal('price', 10,2);
             $table->string('price_currency')->nullable();
             $table->string('youtube_url')->nullable();
             $table->string('tour3d_url')->nullable();

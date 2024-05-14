@@ -3,6 +3,7 @@
 namespace Modules\ClickHome\Models;
 
 use App\Models\User;
+use App\Traits\HasProperty;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -16,7 +17,7 @@ use Spatie\Tags\HasTags;
 class ObjectEntity extends Model implements HasMedia
 {
     use HasFactory;
-    use InteractsWithMedia, HasTags;
+    use InteractsWithMedia, HasTags, HasProperty;
 
     protected $dates = ['start_publish_at', 'end_publish_at'];
 
@@ -59,10 +60,5 @@ class ObjectEntity extends Model implements HasMedia
     public function contacts(): HasMany
     {
         return $this->hasMany(ObjectContact::class);
-    }
-
-    public function properties(): MorphMany
-    {
-        return $this->morphMany(PropertyValue::class, 'properteable');
     }
 }

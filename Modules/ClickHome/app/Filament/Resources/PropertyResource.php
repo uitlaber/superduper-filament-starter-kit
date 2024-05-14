@@ -15,6 +15,8 @@ use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Grouping\Group;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -82,6 +84,7 @@ class PropertyResource extends Resource
 
     public static function table(Table $table): Table
     {
+
         return $table
             ->columns([
 
@@ -118,7 +121,8 @@ class PropertyResource extends Resource
             ])
             ->reorderable('order')
             ->filters([
-                //
+
+               
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

@@ -12,4 +12,21 @@ use Modules\ClickHome\Models\ObjectEntity;
 class CreateObjectEntity extends CreateRecord
 {
     protected static string $resource = ObjectEntityResource::class;
+
+    protected function handleRecordCreation(array $data): Model
+    {
+
+        $record = new ($this->getModel())($data);
+
+        if (
+            static::getResource()::isScopedToTenant() &&
+            ($tenant = Filament::getTenant())
+        ) {
+            return $this->associateRecordWithTenant($record, $tenant);
+        }
+
+        $record->save();
+
+        return $record;
+    }
 }

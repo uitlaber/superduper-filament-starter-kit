@@ -65,6 +65,11 @@ class ManageGeneral extends SettingsPage
                     ->description(fn () => __('page.general_settings.sections.site.description'))
                     ->icon('fluentui-web-asset-24-o')
                     ->schema([
+
+                        Forms\Components\TextInput::make('copyright')
+                        ->label('Copyright notice')
+                        ->required(),
+
                         Forms\Components\Grid::make()->schema([
                             Forms\Components\TextInput::make('brand_name')
                                 ->label(fn () => __('page.general_settings.fields.brand_name'))

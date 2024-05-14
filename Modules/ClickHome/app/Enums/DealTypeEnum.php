@@ -12,6 +12,15 @@ enum DealTypeEnum: string
     {
         $array = [];
         foreach (self::cases() as $case) {
+            $array[$case->value] = $case->name;
+        }
+        return $array;
+    }
+
+    public static function labelArray(): array
+    {
+        $array = [];
+        foreach (self::cases() as $case) {
             $array[$case->value] = __('messages.dealtypes.'.$case->name);
         }
         return $array;

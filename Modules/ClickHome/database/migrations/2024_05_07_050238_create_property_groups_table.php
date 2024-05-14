@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');            
             $table->text('description')->nullable();
+            $table->string('type')->nullable();
             $table->json('options')->nullable();
             $table->integer('order')->nullable();          
             $table->timestamps();
