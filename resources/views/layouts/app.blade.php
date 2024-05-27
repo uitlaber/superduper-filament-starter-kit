@@ -22,33 +22,45 @@
 
 <body>
     <div id="app">
+        <x-slider />
         <div class="header">
-            <div class="container">
-                <div class="header__grid">
-                    <a href="/" class="header-logo"><img src="/images/logo.png" alt=""></a>
-                    <ul class="header-nav">
-                        <li><a href="#">Главная</a></li>
-                        <li><a href="#">Продажа</a></li>
-                        <li><a href="#">Аренда</a></li>
-                        <li><a href="#">Новости</a>
-                            <div class="nav-submenu">
-                                <ul>
-                                    <li><a href="#">СМИ</a></li>
-                                    <li><a href="#">СМИ</a></li>
-                                    <li><a href="#">СМИ</a></li>
-                                    <li><a href="#">СМИ</a></li>
-                                    <li><a href="#">СМИ</a></li>
-                                </ul>
-                            </div>
-                        </li>
-                    </ul>
-                    <ul class="header-nav user-nav">
+            <div class="header__top">
+                <div class="container">
+                    <ul class="user-nav">
+                        <li><a href="#">Мобильная версия</a></li>
                         @guest
                         <li><a href="{{ route('login') }}">Личный кабинет</a></li>
                         @else
                         <li><a href="/login">Личный кабинет</a></li>
                         @endguest
                     </ul>
+                </div>
+            </div>
+            <div class="header__bot">
+                <div class="container">
+                    <div class="header__grid">
+                        <a href="/" class="header-logo"><img src="/images/logo.png" alt=""></a>
+                        <ul class="header-nav">
+                            <li><a href="#">Главная</a></li>
+                            <li><a href="#">Услуги</a></li>
+                            <li><a href="#">Каталог</a></li>
+                            <li><a href="#">Клуб риелторов</a></li>
+                            <li><a href="#">Аналитика</a></li>
+                            <li><a href="#">Статус <span class="badge">PRO</span></a></li>
+                            <li><a href="#">Еще...</a>
+                                <div class="nav-submenu">
+                                    <ul>
+                                        <li><a href="#">СМИ</a></li>
+                                        <li><a href="#">СМИ</a></li>
+                                        <li><a href="#">СМИ</a></li>
+                                        <li><a href="#">СМИ</a></li>
+                                        <li><a href="#">СМИ</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                        
+                    </div>
                 </div>
             </div>
         </div>
