@@ -21,7 +21,7 @@ enum DealTypeEnum: string
     {
         $array = [];
         foreach (self::cases() as $case) {
-            $array[$case->value] = __('messages.dealtypes.'.$case->name);
+            $array[$case->value] = __('messages.dealtypes.'.$case->value);
         }
         return $array;
     }

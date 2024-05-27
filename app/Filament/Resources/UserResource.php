@@ -50,7 +50,7 @@ class UserResource extends Resource
                                     ->collection('avatars')
                                     ->alignCenter()
                                     ->columnSpanFull(),
-                                Forms\Components\TextInput::make('username')
+                                Forms\Components\TextInput::make('phone')
                                     ->required()
                                     ->maxLength(255),
                                 Forms\Components\TextInput::make('email')
@@ -132,7 +132,7 @@ class UserResource extends Resource
                 SpatieMediaLibraryImageColumn::make('media')->label('Avatar')
                     ->collection('avatars')
                     ->wrap(),
-                Tables\Columns\TextColumn::make('username')->label('Username')
+                Tables\Columns\TextColumn::make('phone')->label('Phone')
                     ->description(fn (Model $record) => $record->firstname.' '.$record->lastname)
                     ->searchable(),
                 Tables\Columns\TextColumn::make('roles.name')->label('Role')

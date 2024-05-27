@@ -30,7 +30,7 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail, Has
      * @var array<int, string>
      */
     protected $fillable = [
-        'username',
+        'phone',
         'email',
         'firstname',
         'lastname',
@@ -59,7 +59,7 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail, Has
 
     public function getFilamentName(): string
     {
-        return $this->username;
+        return $this->phone;
     }
 
     public function canAccessPanel(Panel $panel): bool
@@ -68,7 +68,7 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail, Has
         //     return str_ends_with($this->email, '@yourdomain.com') && $this->hasVerifiedEmail();
         // }
 
-        return true;
+        return $this->isSuperAdmin();
     }
 
     public function getFilamentAvatarUrl(): ?string

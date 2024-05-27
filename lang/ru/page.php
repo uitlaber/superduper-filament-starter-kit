@@ -1,6 +1,7 @@
 <?php
 
 return [
+   
     'general_settings' => [
         'title' => 'общие настройки',
         'heading' => 'общие настройки',
