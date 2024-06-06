@@ -16,7 +16,7 @@ class ObjectCategory extends Model
 
     public function propertyGroups(): BelongsToMany
     {
-        return $this->belongsToMany(PropertyGroup::class, 'object_category_property_groups', 'object_category_id', 'property_group_id');
+        return $this->belongsToMany(PropertyGroup::class, 'object_category_property_groups', 'object_category_id', 'property_group_id')->withPivot('order');
     }
 
 }

@@ -66,9 +66,7 @@ class ManageGeneral extends SettingsPage
                     ->icon('fluentui-web-asset-24-o')
                     ->schema([
 
-                        Forms\Components\TextInput::make('copyright')
-                        ->label('Copyright notice')
-                        ->required(),
+               
 
                         Forms\Components\Grid::make()->schema([
                             Forms\Components\TextInput::make('brand_name')

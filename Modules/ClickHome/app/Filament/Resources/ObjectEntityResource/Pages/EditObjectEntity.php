@@ -30,7 +30,7 @@ class EditObjectEntity extends EditRecord
             $properties = [];
             foreach ($this->record->properties as $property) {
                 if ($property->data == null && empty(trim($property->data))) continue;
-                $data = json_decode($property->data, true);
+                $data = $property->data;
                 if (isset($data['value'])) {
                     $properties[$property->property_id]['data'] = $data['value'];
                 }
@@ -59,7 +59,7 @@ class EditObjectEntity extends EditRecord
                     $properties[] = new PropertyValue(
                         [
                             'property_id' => $key,
-                            'data' => json_encode(['value' => $property['data']])
+                            'data' => ['value' => $property['data']]
                         ]
                     );
                 }

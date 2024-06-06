@@ -16,30 +16,37 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap"
         rel="stylesheet">
+    @livewireStyles
     <!-- Scripts -->
+
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+
 </head>
 
 <body>
+
     <div id="app">
         <x-slider />
         <div class="header">
             <div class="header__top">
                 <div class="container">
                     <ul class="user-nav">
-                        <li><a href="#">Мобильная версия</a></li>
+                        <li><a href="#"><i class="bi bi-phone"></i> <span>Мобильная версия</span></a></li>
+                        <li><a href="#"><i class="bi bi-plus-square"></i> <span>Разместить объявление</span></a></li>
                         @guest
-                        <li><a href="{{ route('login') }}">Личный кабинет</a></li>
+                            <li><a href="{{ route('login') }}"><i class="bi bi-box-arrow-in-right"></i> <span>Войти</span></a></li>
                         @else
-                        <li><a href="/login">Личный кабинет</a></li>
+                            <li><a href="/login"><i class="bi bi-heart"></i> <span>Избранные</span></a></li>
+                            <li><a href="/login"><i class="bi bi-person"></i> <span>Личный кабинет</span></a></li>
                         @endguest
                     </ul>
+
                 </div>
             </div>
-            <div class="header__bot">
+            <div class="header__bot" x-data="{ open: false }">
                 <div class="container">
                     <div class="header__grid">
-                        <a href="/" class="header-logo"><img src="/images/logo.png" alt=""></a>
+                        <a href="/" class="header-logo"><img src="/images/logo.jpg" alt=""></a>
                         <ul class="header-nav">
                             <li><a href="#">Главная</a></li>
                             <li><a href="#">Услуги</a></li>
@@ -59,17 +66,33 @@
                                 </div>
                             </li>
                         </ul>
-                        
+                        <a href="#" class="burger-menu" x-on:click.prevent="open = !open"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+                                width="30" height="30" viewBox="0 0 50 50">
+                                <path
+                                    d="M 3 8 A 2.0002 2.0002 0 1 0 3 12 L 47 12 A 2.0002 2.0002 0 1 0 47 8 L 3 8 z M 3 23 A 2.0002 2.0002 0 1 0 3 27 L 47 27 A 2.0002 2.0002 0 1 0 47 23 L 3 23 z M 3 38 A 2.0002 2.0002 0 1 0 3 42 L 47 42 A 2.0002 2.0002 0 1 0 47 38 L 3 38 z">
+                                </path>
+                            </svg></a>
+
+                        <ul class="header-nav--mobile" x-show="open" style="display: none;">
+                            <li><a href="#">Главная</a></li>
+                            <li><a href="#">Услуги</a></li>
+                            <li><a href="#">Каталог</a></li>
+                            <li><a href="#">Клуб риелторов</a></li>
+                            <li><a href="#">Аналитика</a></li>
+                            <li><a href="#">Статус <span class="badge">PRO</span></a></li>
+                        </ul>
+
                     </div>
                 </div>
             </div>
         </div>
-      
 
-        <main >
+
+        <main>
             @yield('content')
         </main>
     </div>
+    @livewireScripts
 </body>
 
 </html>

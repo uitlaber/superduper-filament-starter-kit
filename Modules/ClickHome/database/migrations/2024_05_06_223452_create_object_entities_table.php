@@ -17,6 +17,11 @@ return new class extends Migration
             $table->string('title')->nullable();            
             $table->text('short_description')->nullable();
             $table->text('description')->nullable();
+            $table->integer('city_id')->unsigned()->nullable();
+            $table->foreign('city_id')
+                ->references('id')
+                ->on('cities')
+                ->onDelete('set null');
             $table->string('location')->nullable();
             $table->string('location_settlement')->nullable();
             $table->string('location_street')->nullable();

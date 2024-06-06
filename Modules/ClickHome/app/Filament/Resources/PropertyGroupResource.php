@@ -60,6 +60,7 @@ class PropertyGroupResource extends Resource
     {
         $types = (new PropertyGroup)->getModelsUsingTrait(HasProperty::class)->pluck('label', 'name');
 
+
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')

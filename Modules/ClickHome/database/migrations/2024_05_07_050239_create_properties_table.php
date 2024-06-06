@@ -21,7 +21,10 @@ return new class extends Migration
             $table->unsignedBigInteger('property_group_id');
             $table->foreign('property_group_id')->references('id')->on('property_groups')->onDelete('cascade');
             $table->integer('order')->nullable();         
-            $table->boolean('is_required')->default(false);         
+            $table->boolean('is_required')->default(false);
+            $table->boolean('show_top_filter')->default(false);
+            $table->boolean('show_top_filter_advanced')->default(false);
+            $table->boolean('show_in_card')->default(false);
             $table->timestamps();
         });
     }

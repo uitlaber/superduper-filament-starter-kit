@@ -1,0 +1,71 @@
+.filter{
+    margin: 20px 0;
+    &__tabs{
+        display: flex;
+        gap: 5px;
+        // padding: 0 10px;
+        a{
+            display: block;
+            text-decoration: none;
+            padding: 5px 30px;
+            border: 1px solid #eee;
+            border-bottom: none;
+            border-radius: $border-radius $border-radius 0px 0px;
+            color: $color-font;
+            background: #eee;
+            &.active{
+                background: $color-primary;
+                color: #fff;
+                position: relative;
+               
+            }
+        }
+    }
+    &__content{
+        padding: 12px;
+        border-radius: 0 $border-radius $border-radius $border-radius ;
+        background: #fff;
+        box-shadow: rgba(14, 63, 126, 0.04) 0px 0px 0px 1px, rgba(42, 51, 69, 0.04) 0px 1px 1px -0.5px, rgba(42, 51, 70, 0.04) 0px 3px 3px -1.5px, rgba(42, 51, 70, 0.04) 0px 6px 6px -3px, rgba(14, 63, 126, 0.04) 0px 12px 12px -6px, rgba(14, 63, 126, 0.04) 0px 24px 24px -12px;
+            
+    }
+    &__default, &__full{
+        display: flex;
+        gap: 12px;
+        margin-bottom: 20px;
+
+       
+        
+    }
+    &__buttons{
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+        align-items: center;
+        a{
+            color: $color-font;
+            text-decoration: none;
+            border-bottom: 1px dashed $color-font;
+        }
+        .btn{
+            background: $color-primary;
+            color: #fff;
+        }
+        
+    }
+
+    @media(max-width: 961px) {
+        &__default, &__full{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .col{
+            &--price{
+               grid-column: 1 / 3; 
+            }
+        }
+        &__buttons{
+            justify-content: center;
+        }
+    }
+}

@@ -24,7 +24,10 @@ class Property extends Model
         'type',
         'order',
         'property_group_id',
-        'is_required'
+        'is_required',
+        'show_top_filter',
+        'show_top_filter_advanced',
+        'show_in_card'
     ];
 
     public function group(): BelongsTo

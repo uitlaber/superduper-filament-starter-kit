@@ -15,6 +15,9 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Auth::routes(['verify' => false]);
+Auth::routes(['verify' => true]);
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/search', [App\Http\Controllers\SearchController::class, 'index'])->name('search');
+Route::post('/favorite/add', [App\Http\Controllers\FavoriteController::class, 'add'])->name('favorite.add');
+Route::post('/favorite/remove', [App\Http\Controllers\FavoriteController::class, 'remove'])->name('favorite.remove');

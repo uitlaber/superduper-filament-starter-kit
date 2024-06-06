@@ -81,7 +81,7 @@ class ObjectEntityResource extends Resource
                                         ->label('Пользовтаель')
                                         ->required()
                                         ->searchable()
-                                        ->relationship(name: 'user', titleAttribute: 'username'),
+                                        ->relationship(name: 'user', titleAttribute: 'firstname'),
                                 ]),
                                 Forms\Components\Textarea::make('short_description')
                                     ->label('Короткое описание')
@@ -118,6 +118,9 @@ class ObjectEntityResource extends Resource
                         Tabs\Tab::make('Адрес и контакты')
                             ->schema([
                                 Grid::make(2)->schema([
+                                    Forms\Components\Select::make('city_id')
+                                        ->label('Город')
+                                        ->relationship(name: 'city', titleAttribute: 'name'),
                                     Forms\Components\TextInput::make('location')
                                         ->label('Координаты')
                                         ->maxLength(255),
@@ -271,7 +274,7 @@ class ObjectEntityResource extends Resource
         if (is_null($categoryId)) return [];
         $components = [];
         $objectCategory = ObjectCategory::findOrFail($categoryId);
-        $propertyGroups = $objectCategory->propertyGroups()->where('type', ObjectEntity::class)->get();
+        $propertyGroups = $objectCategory->propertyGroups()->where('type', ObjectEntity::class)->get()->sortBy('pivot.order');
 
         foreach ($propertyGroups as $group) {
             $childComponents = [];
@@ -282,6 +285,9 @@ class ObjectEntityResource extends Resource
                 $valueComponent = TextInput::make($dataKey)->label($property->name);
 
                 switch ($property->type->value) {
+                    case PropertyTypeEnum::NUMBER->value:
+                        $valueComponent = TextInput::make($dataKey)->label($property->name)->numeric();
+                        break;
                     case PropertyTypeEnum::CHECKBOX->value:
                         $valueComponent = Select::make($dataKey)
                             ->multiple()

@@ -5,9 +5,37 @@
 @import "variables";
 
 // Bootstrap
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+
+
+
+
+$white: #ffffff;
+
+$theme-colors: (
+    "light":      #dcd8d7,
+    "dark":       #02063c,
+    "primary":    #e74802,
+    "secondary":  #c9248b,
+    "info":       #993f6b,
+    "success":    #579f01,
+    "warning":    #ffbe5d,
+    "danger":     #f00063,
+);
+
+
 @import "bootstrap/scss/bootstrap";
+@import 'bootstrap-icons/font/bootstrap-icons.css';
 
 @import "swiper/css/bundle";
+
+@import "filter";
+@import "object-list";
+
+.btn-primary{
+    color: #fff;
+}
 
 .container {
     max-width: 1144px;
@@ -19,16 +47,17 @@ body {
 
 .header {
     background: #fff;
-    &__top{
-        background: #019fe1;
+    &__top {
+        background: $color-primary;
     }
-    &__bot{
+    &__bot {
         height: $header-height;
+        position: relative;
     }
     &__grid {
         display: grid;
         height: $header-height;
-        grid-template-columns: 90px 1fr ;
+        grid-template-columns: 90px 1fr;
         align-items: center;
     }
     &-logo {
@@ -36,18 +65,22 @@ body {
             height: $header-inner-height;
         }
     }
-    .user-nav{
+    .user-nav {
         list-style: none;
         display: flex;
         justify-content: flex-end;
         gap: 20px;
         padding: 0;
         margin: 0;
-        a{
+        padding-right: 12px;
+        a {
             text-decoration: none;
             display: block;
             padding: 5px 0;
             color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
     }
     &-nav {
@@ -57,7 +90,35 @@ body {
         margin: 0;
         height: $header-inner-height;
         justify-content: flex-end;
-        .badge{
+
+        &--mobile {
+            position: absolute;
+            top: 60px;
+            left: 0;
+            background: #fff;
+            z-index: 12;
+            width: 100%;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            background: $color-primary;
+            a{
+                width: 100%;
+                text-decoration: none;
+                display: block;
+                padding: 10px 12px;
+                color: #fff;
+                span.badge{
+                    color: red;
+                }
+                &:hover{
+                    background: #fff;
+                    color: $color-font;
+                }
+            }
+
+        }
+        .badge {
             background: red;
         }
         > li {
@@ -107,7 +168,7 @@ body {
                         content: "";
                         position: absolute;
                         top: -10px;
-                        right:  40px; /* Adjust this value to align the corner */
+                        right: 40px; /* Adjust this value to align the corner */
                         width: 0;
                         height: 0;
                         border-left: 10px solid transparent;
@@ -135,26 +196,50 @@ body {
                 }
             }
         }
-        &.user-nav{
+        &.user-nav {
             justify-content: end;
+        }
+    }
+
+    .burger-menu {
+        display: none;
+    }
+
+    @media (max-width: 961px) {
+        &__grid {
+            display: flex;
+            justify-content: space-between;
+        }
+        &-nav {
+            display: none;
+        }
+        .burger-menu {
+            display: block;
+        }
+        .user-nav{
+            a{
+                span{
+                    display: none;
+                }
+            }
         }
     }
 }
 
-.auth-container{
+.auth-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     margin: 3rem 0;
-    .header-logo{
+    .header-logo {
         margin-bottom: 20px;
     }
 
-    .card{
+    .card {
         box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
         border: none;
-        &-header{
+        &-header {
             border: none;
             text-align: center;
             text-transform: uppercase;
@@ -162,11 +247,10 @@ body {
     }
 }
 
-.home-banner{
-    .swiper-slide{
+.home-banner {
+    .swiper-slide {
         width: 100%;
         height: 100px;
         background-size: cover;
-        border-radius: $border-radius;
     }
 }

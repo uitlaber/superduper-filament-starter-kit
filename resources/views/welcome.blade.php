@@ -1,11 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
+    <livewire:top-filter />
 
-    <div class="header__filter">
-        
-    </div>
- 
+    <livewire:list-objects title="Квартиры" :categoryId="4" :limit="4" />
+    <div class="mb-5"></div>
+    <livewire:list-objects title="Загородная" :categoryId="4" :limit="4"/>
+    <div class="mb-5"></div>
+    <livewire:list-objects title="Коммерческая" :categoryId="4" :limit="4"/>
+    <div class="mb-5"></div>
+    <livewire:list-objects title="Арендная недвижимость" :categoryId="4" :limit="4"/>
+
     {{-- <div class="container py-4">
         <div class="row justify-content-center">
             <div class="col-md-8">

@@ -33,8 +33,12 @@
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
         "laravel/ui": "^4.5",
+        "maize-tech/laravel-markable": "^2.2",
+        "php-flasher/flasher-laravel": "^1.15",
+        "php-flasher/flasher-noty-laravel": "^1.15",
         "riodwanto/filament-ace-editor": "^1.0",
         "solution-forest/filament-tree": "^2.0",
+        "spatie/laravel-html": "^3.9",
         "z3d0x/filament-logger": "^0.6.3"
     },
     "require-dev": {

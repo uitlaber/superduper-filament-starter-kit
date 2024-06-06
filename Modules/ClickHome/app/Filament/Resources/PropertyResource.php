@@ -66,6 +66,18 @@ class PropertyResource extends Resource
                 Forms\Components\Toggle::make('is_required')
                     ->label('Объязательный параметр?')
                     ->columnSpanFull(),
+                
+                Forms\Components\Toggle::make('show_top_filter')
+                    ->label('Показать в поиске?')
+                    ->columnSpanFull(),
+                    
+                Forms\Components\Toggle::make('show_top_filter_advanced')
+                    ->label('Показать в расширенном поиске')
+                    ->columnSpanFull(),     
+
+                Forms\Components\Toggle::make('show_in_card')
+                    ->label('Показать на карточках')
+                    ->columnSpanFull(),     
 
                 Forms\Components\Textarea::make('description')
                     ->label('Описание')

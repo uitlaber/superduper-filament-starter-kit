@@ -8,7 +8,6 @@ use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
 
-
 class PropertyGroupRelationManager extends RelationManager
 {
     protected static string $relationship = 'propertyGroups';
@@ -35,6 +34,8 @@ class PropertyGroupRelationManager extends RelationManager
                     ->label('Название'),
                 Tables\Columns\TextColumn::make('description')
                     ->label('Описание'),
+                Tables\Columns\TextColumn::make('pivot.order')
+                    ->label('Сортировка')->numeric(),
             ])
             ->filters([
                 //
@@ -47,6 +48,7 @@ class PropertyGroupRelationManager extends RelationManager
             ])
             ->groupedBulkActions([
                 Tables\Actions\DetachBulkAction::make(),
-            ]);
+            ])->reorderable('object_category_property_groups.order')
+            ->defaultSort('object_category_property_groups.order');;
     }
 }

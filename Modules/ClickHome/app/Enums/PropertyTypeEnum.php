@@ -5,6 +5,7 @@ namespace Modules\ClickHome\Enums;
 enum PropertyTypeEnum: string
 {
     case TEXT = 'text';
+    case NUMBER = 'number';
     case RADIO = 'radio';
     case CHECKBOX = 'checkbox';
     case SWITCH = 'switch';

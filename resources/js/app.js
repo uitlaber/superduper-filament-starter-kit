@@ -37,10 +37,13 @@ app.component('example-component', ExampleComponent);
  * scaffolding. Otherwise, you will need to add an element yourself.
  */
 
+
+
 app.mount('#app');
 import Swiper from 'swiper/bundle';
 
-var swiper = new Swiper(".home-banner", {
+
+ new Swiper(".home-banner", {
     pagination: {
       el: ".swiper-pagination",
       dynamicBullets: true,

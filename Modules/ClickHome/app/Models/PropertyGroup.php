@@ -25,7 +25,7 @@ class PropertyGroup extends Model
 
     public function objectCategories(): BelongsToMany
     {
-        return $this->belongsToMany(ObjectCategory::class, 'object_category_property_groups', 'property_group_id', 'object_category_id');
+        return $this->belongsToMany(ObjectCategory::class, 'object_category_property_groups', 'property_group_id', 'object_category_id')->withPivot('order');
     }
 
     public function properties(): HasMany
@@ -59,6 +59,6 @@ class PropertyGroup extends Model
                 return $valid;
             });
 
-        return $models->values();
+        return $models->sortByDesc('label')->values();
     }
 }
