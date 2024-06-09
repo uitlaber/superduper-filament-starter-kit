@@ -8,9 +8,6 @@
 @import "bootstrap/scss/functions";
 @import "bootstrap/scss/variables";
 
-
-
-
 $white: #ffffff;
 
 $theme-colors: (
@@ -32,6 +29,7 @@ $theme-colors: (
 
 @import "filter";
 @import "object-list";
+@import "search-bar";
 
 .btn-primary{
     color: #fff;
@@ -49,20 +47,26 @@ body {
     background: #fff;
     &__top {
         background: $color-primary;
+        &__grid{
+            display: flex;
+            justify-content: space-between;
+        }
     }
     &__bot {
         height: $header-height;
         position: relative;
     }
     &__grid {
-        display: grid;
+        display: flex;
         height: $header-height;
-        grid-template-columns: 90px 1fr;
         align-items: center;
+        justify-content: space-between;
     }
     &-logo {
+        background: #fff;
+        padding-left: 1.5rem;
         img {
-            height: $header-inner-height;
+            height: 33px;
         }
     }
     .user-nav {
@@ -76,11 +80,13 @@ body {
         a {
             text-decoration: none;
             display: block;
-            padding: 5px 0;
             color: #fff;
             display: flex;
             align-items: center;
             gap: 5px;
+            i{
+                font-size:  1.2rem;
+            }
         }
     }
     &-nav {

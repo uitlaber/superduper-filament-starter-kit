@@ -9,8 +9,7 @@
             @foreach ($objects as $obj)
                 <a href="#{{ $obj->id }}" class="object-item">
                     
-                    {{ html()->form('GET', '/favorite')->open() }}
-                    {{ html()->form()->close() }}
+                    <livewire:favorite-button :obj="$obj"/>
 
                     
                     <img src="{{ $obj->getMedia('photos')->first()->getUrl('thumb') }}" alt="">

@@ -1,9 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <livewire:top-filter />
-
-    <x-object-type-list title="Квартиры" :categoryId="4" :limit="4"/>
+    
    
     {{-- <div class="container py-4">
         <div class="row justify-content-center">

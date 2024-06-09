@@ -7,24 +7,15 @@ use Livewire\Component;
 use Maize\Markable\Models\Favorite;
 use Modules\ClickHome\Models\ObjectEntity;
 
-class ListObjects extends Component
+class FavoriteButton extends Component
 {
-    public string $title;
-    public int $categoryId;
-    public int $limit;
-    public $objects = [];
 
-    public function mount()
-    {
-        $this->objects = ObjectEntity::query()
-            ->where('object_category_id', $this->categoryId)->take($this->limit ?? 8)->get()->toArray();
-    }
+    public ObjectEntity $obj;
 
     public function render()
     {
-        return view('livewire.list-objects');
+        return view('livewire.favorite-button');
     }
-
 
     public function favoriteAdd($id)
     {

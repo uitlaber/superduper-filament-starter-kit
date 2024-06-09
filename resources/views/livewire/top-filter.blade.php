@@ -5,6 +5,9 @@
                 wire:click="selectType('buy')">Купить</a>
             <a href="#" class="{{ $selectedType === 'rent' ? 'active' : '' }}"
                 wire:click="selectType('rent')">Арендовать</a>
+
+            <a href="#" class="{{ $selectedType === 'rest' ? 'active' : '' }}"
+                wire:click="selectType('rest')">Отдых</a>     
         </div>
 
         {{ html()->form('GET', '/search')->open() }}
@@ -100,6 +103,7 @@
                         Расширенный поиск
                     @endif
                 </a>
+                <a href="#"><i class="bi bi-map"></i> На карте</a>
                 <button class="btn" type="submit">Поиск</button>
             </div>
         </div>

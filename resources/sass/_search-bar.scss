@@ -1,0 +1,13 @@
+.search-bar{
+    position: relative;
+    form{
+        display: flex;
+        align-items: center;
+        button{
+            position: absolute;
+            background: none;
+            border: none;
+            right: 5px;
+        }
+    }
+}
