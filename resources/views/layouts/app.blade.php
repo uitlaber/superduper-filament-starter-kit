@@ -101,6 +101,13 @@
         <main>
             @yield('content')
         </main>
+        <footer class="footer">
+            <div class="container">
+                <div class="footer__col">
+                    <p>© 2023 — 2024 «Clickhome»</p>
+                </div>
+            </div>
+        </footer>
     </div>
     @livewireScripts
 </body>

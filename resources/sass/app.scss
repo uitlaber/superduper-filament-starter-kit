@@ -215,6 +215,11 @@ body {
         &__grid {
             display: flex;
             justify-content: space-between;
+            gap: 20px;
+
+        }
+        .search-bar{
+            flex: 1;
         }
         &-nav {
             display: none;
@@ -259,4 +264,9 @@ body {
         height: 100px;
         background-size: cover;
     }
+}
+
+.footer{
+    margin-top: 2rem;
+    text-align: center;
 }

@@ -4,6 +4,9 @@
     <livewire:top-filter />
 
     <x-object-type-list title="Квартиры" :categoryId="4" :limit="4"/>
+    <x-object-type-list title="Загородная" :categoryId="4" :limit="4"/>
+    <x-object-type-list title="Коммерческая" :categoryId="4" :limit="4"/>
+    <x-object-type-list title="Арендная недвижимость" :categoryId="4" :limit="4"/>
    
     {{-- <div class="container py-4">
         <div class="row justify-content-center">
