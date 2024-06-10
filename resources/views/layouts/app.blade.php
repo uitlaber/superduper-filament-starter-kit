@@ -41,7 +41,7 @@
 
                             <li><a href="{{ route('favorites') }}"><i class="bi bi-heart"></i> <span>Избранные</span></a></li>  
                             @guest
-                                <li><a href="{{ route('login') }}"><i class="bi bi-box-arrow-in-right"></i>
+                                <li><a href="{{ route('login') }}"><i class="bi bi-box-arrow-in-right" aria-label="Войти"></i>
                                         <span>Войти</span></a></li>
                             @else
                                 <li><a href="/login"><i class="bi bi-person"></i> <span>Личный кабинет</span></a></li>
