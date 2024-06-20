@@ -46,7 +46,6 @@ class ObjectEntityResource extends Resource
     {
 
         $currencyList =  CurrencyEnum::toArray();
-        $dealTypeList =  DealTypeEnum::labelArray();
         $categoryOptions = [];
         $categoryTree = ObjectCategory::treeNodes();
         foreach ($categoryTree as $category) {
@@ -67,10 +66,10 @@ class ObjectEntityResource extends Resource
                                         ->label('Заголовок')
                                         ->maxLength(255)->live(),
 
-                                    Forms\Components\Select::make('deal_type')
+                                    Forms\Components\Select::make('deal_type_id')
                                         ->label('Тип сделки')
                                         ->required()
-                                        ->options($dealTypeList),
+                                        ->relationship(name: 'dealType', titleAttribute: 'name'),
 
                                     Forms\Components\Select::make('object_category_id')
                                         ->label('Категория')
@@ -78,7 +77,7 @@ class ObjectEntityResource extends Resource
                                         ->options($categoryOptions)->live(),
 
                                     Forms\Components\Select::make('user_id')
-                                        ->label('Пользовтаель')
+                                        ->label('Пользователь')
                                         ->required()
                                         ->searchable()
                                         ->relationship(name: 'user', titleAttribute: 'firstname'),
@@ -97,6 +96,11 @@ class ObjectEntityResource extends Resource
                                     Forms\Components\Select::make('price_currency')
                                         ->label('Валюта')
                                         ->options($currencyList),
+                                    Forms\Components\TextInput::make('ar_url')
+                                        ->label('Ссылка на AR')
+                                        ->url()
+                                        ->suffixIcon('heroicon-m-globe-alt')
+                                        ->maxLength(255),    
                                     Forms\Components\TextInput::make('youtube_url')
                                         ->label('Ссылка на Youtube')
                                         ->url()
@@ -155,6 +159,7 @@ class ObjectEntityResource extends Resource
                                 SpatieMediaLibraryFileUpload::make('media')
                                     ->label('Фото')
                                     ->collection('photos')
+                                    ->conversion('thumb')
                                     ->multiple()
                                     ->reorderable()
                                     ->required(),
@@ -184,9 +189,8 @@ class ObjectEntityResource extends Resource
                     ->label('ID')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('deal_type')
-                ->label('Тип сделки')
-                ->formatStateUsing(fn (string $state): string => __("messages.dealtypes.{$state}")),
+                Tables\Columns\TextColumn::make('dealType.name')
+                ->label('Тип сделки'),
                 Tables\Columns\TextColumn::make('category.title')
                     ->label('Категория')
                     ->description(function (ObjectEntity $record): string {

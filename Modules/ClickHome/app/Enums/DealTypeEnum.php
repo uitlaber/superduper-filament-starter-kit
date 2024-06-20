@@ -7,6 +7,7 @@ enum DealTypeEnum: string
     case SELL = 'sell';
     case RENT_LONG = 'rent_long';
     case RENT_DAILY = 'rent_daily';
+    case REST = 'rest';
 
     public static function toArray(): array
     {

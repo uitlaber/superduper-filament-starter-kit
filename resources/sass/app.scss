@@ -11,27 +11,27 @@
 $white: #ffffff;
 
 $theme-colors: (
-    "light":      #dcd8d7,
-    "dark":       #02063c,
-    "primary":    #e74802,
-    "secondary":  #c9248b,
-    "info":       #993f6b,
-    "success":    #579f01,
-    "warning":    #ffbe5d,
-    "danger":     #f00063,
+    "light": #dcd8d7,
+    "dark": #02063c,
+    "primary": #e74802,
+    "secondary": #c9248b,
+    "info": #993f6b,
+    "success": #579f01,
+    "warning": #ffbe5d,
+    "danger": #f00063,
 );
 
-
 @import "bootstrap/scss/bootstrap";
-@import 'bootstrap-icons/font/bootstrap-icons.css';
+@import "bootstrap-icons/font/bootstrap-icons.css";
 
 @import "swiper/css/bundle";
 
 @import "filter";
 @import "object-list";
 @import "search-bar";
+@import "object-single";
 
-.btn-primary{
+.btn-primary {
     color: #fff;
 }
 
@@ -43,11 +43,24 @@ body {
     font-family: $font-family-sans-serif;
 }
 
+.auth-logo {
+    img {
+        height: 100px;
+    }
+}
+
 .header {
     background: #fff;
+    &.sticky {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 9;
+    }
     &__top {
         background: $color-primary;
-        &__grid{
+        &__grid {
             display: flex;
             justify-content: space-between;
         }
@@ -84,8 +97,8 @@ body {
             display: flex;
             align-items: center;
             gap: 5px;
-            i{
-                font-size:  1.2rem;
+            i {
+                font-size: 1.2rem;
             }
         }
     }
@@ -108,21 +121,20 @@ body {
             padding: 0;
             margin: 0;
             background: $color-primary;
-            a{
+            a {
                 width: 100%;
                 text-decoration: none;
                 display: block;
                 padding: 10px 12px;
                 color: #fff;
-                span.badge{
+                span.badge {
                     color: red;
                 }
-                &:hover{
+                &:hover {
                     background: #fff;
                     color: $color-font;
                 }
             }
-
         }
         .badge {
             background: red;
@@ -216,9 +228,8 @@ body {
             display: flex;
             justify-content: space-between;
             gap: 20px;
-
         }
-        .search-bar{
+        .search-bar {
             flex: 1;
         }
         &-nav {
@@ -227,9 +238,9 @@ body {
         .burger-menu {
             display: block;
         }
-        .user-nav{
-            a{
-                span{
+        .user-nav {
+            a {
+                span {
                     display: none;
                 }
             }
@@ -266,7 +277,7 @@ body {
     }
 }
 
-.footer{
+.footer {
     margin-top: 2rem;
     text-align: center;
 }

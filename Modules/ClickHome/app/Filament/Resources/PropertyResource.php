@@ -22,7 +22,9 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Modules\ClickHome\Enums\PropertyTypeEnum;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use ReflectionClass;
+use Spatie\MediaLibrary\MediaCollections\File;
 
 class PropertyResource extends Resource
 {
@@ -77,7 +79,13 @@ class PropertyResource extends Resource
 
                 Forms\Components\Toggle::make('show_in_card')
                     ->label('Показать на карточках')
-                    ->columnSpanFull(),     
+                    ->columnSpanFull(),    
+                    
+                SpatieMediaLibraryFileUpload::make('media')
+                    ->label('Иконка')
+                    ->disk('public_icons')
+                    ->acceptedFileTypes(['image/svg+xml'])
+                    ->collection('icon'),
 
                 Forms\Components\Textarea::make('description')
                     ->label('Описание')

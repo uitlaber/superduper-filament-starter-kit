@@ -34,7 +34,7 @@ class ObjectEntity extends Model implements HasMedia
 
     protected $fillable = [
         'title',
-        'deal_type',
+        'deal_type_id',
         'object_category_id',
         'short_description',
         'description',
@@ -47,6 +47,7 @@ class ObjectEntity extends Model implements HasMedia
         'price',
         'price_currency',
         'youtube_url',
+        'ar_url',
         'tour3d_url',
         'user_id',
         'start_publish_at',
@@ -58,6 +59,11 @@ class ObjectEntity extends Model implements HasMedia
     public function category(): BelongsTo
     {
         return $this->belongsTo(ObjectCategory::class, 'object_category_id');
+    }
+
+    public function dealType(): BelongsTo
+    {
+        return $this->belongsTo(DealType::class, 'deal_type_id');
     }
 
     public function city(): BelongsTo

@@ -43,10 +43,21 @@
             &__body{
                 position: relative;
                 padding: 12px;
-                p{
+                dl{
+                    display: flex;
+                    gap: 10px;
+                    margin-bottom: 8px;
+                }
+                dt,dd{
                     font-size: 12px;
                     margin-bottom: 5px;
                     line-height: 12px;
+                    margin-bottom: 0;
+                    font-weight: normal;
+                    img{
+                        height: 16px;
+                        margin-bottom: 0;
+                    }
                 }
                 .city{
                     color: #999;

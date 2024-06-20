@@ -12,6 +12,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Modules\ClickHome\Filament\Resources\ObjectCategoryResource\RelationManagers\DealTypeRelationManager;
 use Modules\ClickHome\Filament\Resources\ObjectCategoryResource\RelationManagers\PropertyGroupRelationManager;
 
 class ObjectCategoryResource extends Resource
@@ -81,7 +82,8 @@ class ObjectCategoryResource extends Resource
     public static function getRelations(): array
     {
         return [
-            PropertyGroupRelationManager::class
+            PropertyGroupRelationManager::class,
+            DealTypeRelationManager::class
         ];
     }
 

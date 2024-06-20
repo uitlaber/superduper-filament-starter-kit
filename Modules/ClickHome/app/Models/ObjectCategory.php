@@ -19,4 +19,9 @@ class ObjectCategory extends Model
         return $this->belongsToMany(PropertyGroup::class, 'object_category_property_groups', 'object_category_id', 'property_group_id')->withPivot('order');
     }
 
+    public function dealTypes(): BelongsToMany
+    {
+        return $this->belongsToMany(DealType::class, 'object_category_deal_types', 'object_category_id', 'deal_type_id');
+    }
+
 }

@@ -29,7 +29,7 @@ Route::prefix('objects')->group(function () {
 
     Route::get('/add', [ObjectEntityController::class, 'add'])->name('objects.add');
     Route::post('/{objectId}/remove', [ObjectEntityController::class, 'remove'])->name('objects.remove');
-    Route::get('/{categoryId}/{objectId}', [ObjectEntityController::class, 'single'])->name('objects.single');
+    Route::get('/{objectId}', [ObjectEntityController::class, 'single'])->name('objects.single');
     Route::get('/{categoryId}', [ObjectEntityController::class, 'index'])->name('objects');
 });
 

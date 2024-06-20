@@ -30,6 +30,7 @@ return new class extends Migration
             $table->decimal('price', 10,2);
             $table->string('price_currency')->nullable();
             $table->string('youtube_url')->nullable();
+            $table->string('ar_url')->nullable();
             $table->string('tour3d_url')->nullable();
             $table->uuid('user_id');
             $table->enum('deal_type', DealTypeEnum::toArray());

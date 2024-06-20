@@ -40,7 +40,7 @@ import './bootstrap';
 
 
 // app.mount('#app');
-// import Swiper from 'swiper/bundle';
+import Swiper from 'swiper/bundle';
 
 
 //  new Swiper(".home-banner", {
@@ -49,3 +49,45 @@ import './bootstrap';
 //       dynamicBullets: true,
 //     },
 //   });
+
+
+window.onscroll = function() {fixHeader()};
+
+// Get the header
+var header = document.querySelector(".header");
+
+// Get the offset position of the navbar
+var sticky = header.offsetTop;
+
+// Add the sticky class to the header when you reach its scroll position. Remove "sticky" when you leave the scroll position
+function fixHeader() {
+  if (window.scrollY > sticky) {
+    header.classList.add("sticky");
+  } else {
+    header.classList.remove("sticky");
+  }
+}
+
+
+var slider = new Swiper ('.gallery-slider', {
+  slidesPerView: 1,
+  centeredSlides: true,
+  loop: true,
+  loopedSlides: 6, //スライドの枚数と同じ値を指定
+  navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+  },
+});
+
+//サムネイルスライド
+var thumbs = new Swiper ('.gallery-thumbs', {
+  slidesPerView: 'auto',
+  spaceBetween: 10,
+  centeredSlides: true,
+  loop: true,
+  slideToClickedSlide: true,
+});
+
+slider.controller.control = thumbs;
+thumbs.controller.control = slider;
